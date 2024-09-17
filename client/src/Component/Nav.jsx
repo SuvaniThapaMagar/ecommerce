@@ -73,7 +73,7 @@ const Nav = () => {
           Reviews
         </NavLink>
         <NavLink
-          to="/contact-us"
+          to="/contact"
           className="text-sm text-gray-800 hover:text-gray-600"
         >
           Contact us

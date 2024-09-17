@@ -20,7 +20,7 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 app.use(cors({
-  origin: 'http://localhost:5173', // Frontend URL
+  origin: 'http://localhost:5173', // Update this to match your frontend URL
   credentials: true // Allow credentials
 }));
 
@@ -49,6 +49,8 @@ app.use(notFound);
 
 // Middleware for handling other errors
 app.use(errorHandler);
+
+
 
 // Start the server
 app.listen(PORT, () => {

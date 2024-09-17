@@ -47,7 +47,7 @@ const Home = () => {
         <div className="flex justify-center space-x-6">
           <div className="flex flex-col items-center">
             <NavLink
-              to="/fashion"
+              to="/products/category/fashion"
               className="text-sm text-gray-800 hover:text-gray-600 "
             >
               <img
@@ -61,7 +61,7 @@ const Home = () => {
 
           <div className="flex flex-col items-center">
             <NavLink
-              to="/accessory"
+              to="/products/category/accessories"
               className="text-sm text-gray-800 hover:text-gray-600 "
             >
               <img
@@ -75,7 +75,7 @@ const Home = () => {
 
           <div className="flex flex-col items-center">
             <NavLink
-              to="/decor"
+              to="/products/category/home-decor"
               className="text-sm text-gray-800 hover:text-gray-600 "
             >
               <img
@@ -89,7 +89,7 @@ const Home = () => {
 
            <div className="flex flex-col items-center">
             <NavLink
-              to="/gift"
+              to="/products/category/gift"
               className="text-sm text-gray-800 hover:text-gray-600 "
             >
               <img

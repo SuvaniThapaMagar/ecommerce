@@ -1,62 +1,56 @@
-import React, { useState, useEffect, useContext } from "react";
-import { FaHeart } from "react-icons/fa";
-import { BiCartAdd } from "react-icons/bi"; // For "Buy" button
-import { CartContext } from './CartContext'; // Import the CartContextmport the CartIcon
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import Filter from './Filter';
 
 const Fashion = () => {
-  const [cloth, setCloth] = useState([]);
-  const { addToCart } = useContext(CartContext); // Access addToCart from CartContext
-
-  const getData = async () => {
-    try {
-      const response = await fetch('https://fakestoreapi.com/products');
-      const data = await response.json();
-      setCloth(data); // Set cloth as the fetched data
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    getData();
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:4000/api/product?category=fashion');
+        if (!response.ok) throw new Error('Network response was not ok');
+        const data = await response.json();
+        console.log(data); // Log the products data to check if images are present
+        setProducts(data);
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   return (
-    <div className="bg-gray-50 p-4">
-      {/* Cart Icon in the Top Right Corner */}
-      <div className="flex justify-end mb-4">
-        <CartIcon />
-      </div>
-      <div className="flex flex-row overflow-x-auto gap-4 flex-wrap">
-        {cloth.map((item, index) => (
-          <div
-            key={index}
-            className="relative bg-white rounded-lg shadow-md overflow-hidden w-64"
-          >
-            {/* Image with Hover Effect */}
-            <div className="relative">
-              <img
-                className="h-40 w-full object-cover transition-transform transform hover:scale-105"
-                src={item.image}
-                alt={item.title}
-              />
-              <div className="absolute top-2 left-2 text-white bg-black/50 rounded-full p-1">
-                <FaHeart className="text-white" />
+    <div className="flex p-4">
+      {/* Filter section on the left */}
+      <Filter />
+
+      {/* Product list on the right */}
+      <div className="flex-1 ml-4">
+        <h1 className="text-2xl font-bold mb-4">Fashion Products</h1>
+        <div className="grid grid-cols-1 gap-4">
+          {products.map((product) => (
+            <div key={product._id} className="flex items-center border rounded-lg p-4 shadow-sm">
+              {product.images && product.images.length > 0 && (
+                <Link to={`/description/${product._id}`}> {/* Add Link for navigation */}
+                  <img
+                    src={product.images[0]}
+                    alt={product.title}
+                    className="w-16 h-16 object-cover mr-4 rounded cursor-pointer"
+                  />
+                </Link>
+              )}
+              <div className="flex-1">
+                <Link to={`/description/${product._id}`}> {/* Add Link for navigation */}
+                  <h3 className="text-lg font-semibold cursor-pointer">{product.title}</h3>
+                </Link>
+                <p className="text-gray-600">{product.description}</p>
+                <p className="text-black font-bold">${product.price}</p>
               </div>
             </div>
-            {/* Details */}
-            <div className="p-4">
-              <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-              <p className="text-gray-600 mb-4">${item.price.toFixed(2)}</p>
-              <button
-                onClick={() => addToCart({ ...item, quantity: 1 })} // Add item to cart
-                className="w-full bg-pink-500 text-white py-2 rounded-lg flex items-center justify-center hover:bg-pink-600 transition-colors"
-              >
-                <BiCartAdd className="mr-2" /> Add to cart
-              </button>
-            </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
