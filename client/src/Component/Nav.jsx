@@ -1,13 +1,28 @@
-import React, { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import { CiSearch } from "react-icons/ci";
 import { IoPersonOutline, IoCartOutline } from "react-icons/io5";
 import logo from "../assets/logo.png"; // Ensure this path is correct
 import { CartContext } from "./CartContext"; // Import CartContext
 
 const Nav = () => {
-  const { cartItems } = useContext(CartContext); // Access cartItems from CartContext
+  const [searchQuery, setSearchQuery] = useState('');
+  const { cartCount } = useContext(CartContext);
+  const navigate = useNavigate(); // Import useNavigate for programmatic navigation
+  const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+    }
+  };
+
+  const toggleProfileDropdown = () => {
+    setShowProfileDropdown(!showProfileDropdown);
+  };
+
+
+ 
   return (
     <div className="w-full bg-white">
       <div className="flex items-center justify-between px-6">
@@ -18,7 +33,20 @@ const Nav = () => {
             type="text"
             placeholder="Search our store"
             className="outline-none flex-grow text-sm ml-2"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleSearch();
+              }
+            }}
           />
+          <button
+            onClick={handleSearch}
+            className="ml-2 px-3 py-1 bg-black text-white rounded"
+          >
+            Search
+          </button>
         </div>
 
         {/* Center Section: Logo */}
@@ -28,16 +56,34 @@ const Nav = () => {
 
         {/* Right Section: Icons */}
         <div className="flex items-center text-sm gap-6">
-          <NavLink to="/login" className="relative">
-            <IoPersonOutline className="text-2xl ml-2" />
-          </NavLink>
+        <div className="relative">
+          <IoPersonOutline 
+            className="text-2xl ml-2 cursor-pointer" 
+            onClick={toggleProfileDropdown}
+          />
+          {showProfileDropdown && (
+            <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+              <NavLink 
+                to="/profile" 
+                className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100"
+              >
+                Profile
+              </NavLink>
+              <NavLink 
+                to="/login" 
+                className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100"
+              >
+                Login
+              </NavLink>
+            </div>
+          )}
+        </div>
 
           <NavLink to="/cart" className="relative">
             <IoCartOutline className="text-3xl" />
-            {/* Display cart item count */}
-            {cartItems.length > 0 && (
+            {cartCount > 0 && (
               <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
-                {cartItems.length}
+                {cartCount}
               </span>
             )}
           </NavLink>
@@ -48,24 +94,7 @@ const Nav = () => {
         <NavLink to="/" className="text-sm text-gray-800 hover:text-gray-600">
           Home
         </NavLink>
-        <NavLink
-          to="/sale"
-          className="text-sm text-gray-800 hover:text-gray-600"
-        >
-          SALE! %
-        </NavLink>
-        <NavLink
-          to="/new-in"
-          className="text-sm text-gray-800 hover:text-gray-600"
-        >
-          New in!
-        </NavLink>
-        <NavLink
-          to="/collection"
-          className="text-sm text-gray-800 hover:text-gray-600"
-        >
-          Shop
-        </NavLink>
+
         <NavLink
           to="/reviews"
           className="text-sm text-gray-800 hover:text-gray-600"

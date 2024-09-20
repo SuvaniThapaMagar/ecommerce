@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 
@@ -8,10 +8,15 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log("Current user data in localStorage:", localStorage.getItem("user"));
+  }, []);
+
   // Function to handle login
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      console.log("Attempting login with email:", email);
       const response = await fetch("http://localhost:4000/api/user/login", {
         method: "POST",
         headers: {
@@ -22,33 +27,43 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log("Login successful. Received data:", data);
         
         // Save the token and user info in localStorage
-        localStorage.setItem("token", data.token); // Storing JWT token
-        localStorage.setItem("user", JSON.stringify({
+        localStorage.setItem("token", data.token);
+        const userData = {
           _id: data._id,
           firstname: data.firstname,
           lastname: data.lastname,
           email: data.email,
           mobile: data.mobile,
-        })); // Storing user info as a JSON string
+        };
+        localStorage.setItem("user", JSON.stringify(userData));
+        
+        console.log("Stored user data in localStorage:", localStorage.getItem("user"));
 
         // Navigate to the home page or any other page after login
         navigate("/");
       } else {
         const errorData = await response.json();
+        console.error("Login failed:", errorData);
         setError(errorData.message || "Invalid credentials");
       }
     } catch (error) {
+      console.error("Login error:", error);
       setError("Something went wrong. Please try again later.");
     }
   };
 
   // Function to handle logout
   const handleLogout = () => {
+    console.log("Logging out. Current user data:", localStorage.getItem("user"));
+    
     // Remove token and user info from localStorage
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+
+    console.log("After logout. User data:", localStorage.getItem("user"));
 
     // Optionally, you can also reset the state if required
     setEmail("");

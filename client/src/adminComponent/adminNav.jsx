@@ -17,7 +17,7 @@ const Side = () => {
       <div className="flex flex-col space-y-8">
         {/* Dashboard Link */}
         <NavLink
-          to="/"
+          to="/admin-dashboard"
           className={({ isActive }) =>
             isActive
               ? "flex items-center space-x-3 text-blue-500 font-bold"

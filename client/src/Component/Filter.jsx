@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const Filter = ({ onFilter }) => {
-  const [stockStatus, setStockStatus] = useState("inStock"); // 'inStock' or 'outOfStock'
+  const [stockStatus, setStockStatus] = useState("inStock");
 
+  
   const handleStockChange = (event) => {
-    setStockStatus(event.target.value);
-    onFilter({ stockStatus: event.target.value });
+    const newStockStatus = event.target.value;
+    setStockStatus(newStockStatus);
+    if (typeof onFilter === 'function') {
+      onFilter({ stockStatus: newStockStatus });
+    } else {
+      console.error('onFilter is not a function');
+    }
   };
 
   return (
@@ -37,7 +43,7 @@ const Filter = ({ onFilter }) => {
             }`
           }
         >
-          Accessory
+          Accessories
         </NavLink>
         <NavLink
           to="/products/category/decor"

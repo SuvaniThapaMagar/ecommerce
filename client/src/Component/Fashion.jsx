@@ -1,57 +1,134 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom'; // Import Link from react-router-dom
-import Filter from './Filter';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { FaHeart } from "react-icons/fa";
+import Filter from "./Filter";
+import Footer from "./Footer";
 
 const Fashion = () => {
   const [products, setProducts] = useState([]);
+  const [sortOption, setSortOption] = useState("featured");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  
+  const limit = 2; 
+
+  const fetchProducts = async () => {
+    try {
+      setLoading(true);
+      let url = `http://localhost:4000/api/product?category=fashion`;
+
+      // Add sorting option
+      if (sortOption) {
+        const sortParams = {
+          "featured": "-createdAt",
+          "title-asc": "title",
+          "title-desc": "-title",
+          "price-asc": "price",
+          "price-desc": "-price",
+          "date-newest": "-createdAt",
+          "date-oldest": "createdAt",
+        };
+        url += `&sort=${sortParams[sortOption]}`;
+      }
+
+      // Pagination
+      url += `&page=${currentPage}&limit=${limit}`;
+
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Network response was not ok");
+
+      const data = await response.json();
+      console.log("API Response Data:", data);
+      setProducts(data || []); // Changed from data.products to data
+    } catch (error) {
+      setError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://localhost:4000/api/product?category=fashion');
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        console.log(data); // Log the products data to check if images are present
-        setProducts(data);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
-
     fetchProducts();
-  }, []);
+  }, [sortOption, currentPage]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="flex p-4">
-      {/* Filter section on the left */}
-      <Filter />
-
-      {/* Product list on the right */}
-      <div className="flex-1 ml-4">
-        <h1 className="text-2xl font-bold mb-4">Fashion Products</h1>
-        <div className="grid grid-cols-1 gap-4">
-          {products.map((product) => (
-            <div key={product._id} className="flex items-center border rounded-lg p-4 shadow-sm">
-              {product.images && product.images.length > 0 && (
-                <Link to={`/description/${product._id}`}> {/* Add Link for navigation */}
-                  <img
-                    src={product.images[0]}
-                    alt={product.title}
-                    className="w-16 h-16 object-cover mr-4 rounded cursor-pointer"
-                  />
-                </Link>
-              )}
-              <div className="flex-1">
-                <Link to={`/description/${product._id}`}> {/* Add Link for navigation */}
-                  <h3 className="text-lg font-semibold cursor-pointer">{product.title}</h3>
-                </Link>
-                <p className="text-gray-600">{product.description}</p>
-                <p className="text-black font-bold">${product.price}</p>
-              </div>
-            </div>
-          ))}
+    <div>
+      <div className="flex flex-col md:flex-row p-4">
+        <Filter />
+        <div className="flex-1 items-center justify-evenly ml-10">
+          <h1 className="text-2xl text-center font-bold mb-4">Fashion Ideas</h1>
+          <div className="mb-4">
+            <label htmlFor="sort" className="mr-2">Sort by</label>
+            <select
+              id="sort"
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="border rounded p-2"
+            >
+              <option value="featured">Featured</option>
+              <option value="title-asc">Title, A-Z</option>
+              <option value="title-desc">Title, Z-A</option>
+              <option value="price-asc">Price, low to high</option>
+              <option value="price-desc">Price, high to low</option>
+              <option value="date-newest">Date, new to old</option>
+              <option value="date-oldest">Date, old to new</option>
+            </select>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-16">
+            {products.length > 0 ? (
+              products.map((product) => (
+                <div key={product._id} className="">
+                  {product.images && product.images.length > 0 && (
+                    <div className="relative">
+                      <Link to={`/description/${product._id}`}>
+                        <img
+                          src={product.images[0]}
+                          alt={product.title}
+                          className="w-full h-[300px] object-cover cursor-pointer transition-transform duration-300 transform hover:scale-105"
+                        />
+                      </Link>
+                      <div className="absolute top-2 right-2">
+                        <FaHeart className="text-gray-500 hover:text-red-500 cursor-pointer transition duration-300" />
+                      </div>
+                    </div>
+                  )}
+                  <div className="p-4 text-center">
+                    <Link to={`/description/${product._id}`}>
+                      <h3 className="text-lg font-semibold cursor-pointer">
+                        {product.title}
+                      </h3>
+                    </Link>
+                    <p className="text-black font-bold">NPR {product.price}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <p>No products available</p>
+            )}
+          </div>
+          <div className="pagination-controls mt-4">
+            <button
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="mr-2 p-2 border rounded"
+            >
+              Previous
+            </button>
+            <span>Page {currentPage}</span>
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className="ml-2 p-2 border rounded"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

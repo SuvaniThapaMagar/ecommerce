@@ -6,6 +6,9 @@ const authMiddleware = asyncHandler(async (req, res, next) => {
   let token;
   if (req?.headers?.authorization?.startsWith("Bearer")) {
     token = req.headers.authorization.split(" ")[1]; // Extract token
+    console.log("Authorization header:", req.headers.authorization);
+console.log("Token extracted:", token);
+
     try {
       if (token) {
         // Verify the token
