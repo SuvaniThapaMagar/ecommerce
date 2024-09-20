@@ -20,6 +20,7 @@ import Nav from "./Component/Nav";
 import SalesPage from "./Component/Sale";
 import AllProduct from "./Component/Collection";
 import SearchResults from "./Component/searchResults";
+import Profile from "./Component/Profile";
 
 
 
@@ -38,6 +39,7 @@ const App = () => {
          <Route path="/" element={<Home />} />
          <Route path="/search" element={<SearchResults />} />
          <Route path="/cart" element={<Cart />} />
+         <Route path="/profile" element={<Profile />} />
          <Route path="/login" element={<Login />} />
          <Route path="/signup" element={<Register />} />
          <Route path="/orders" element={<Orders />} />

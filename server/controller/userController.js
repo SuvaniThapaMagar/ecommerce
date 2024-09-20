@@ -205,14 +205,12 @@ const getallUser = asyncHandler(async (req, res) => {
   }
 });
 
-//get single user
 const getaUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  validateMongoDbId(id);
   try {
-    const getaUser = await User.findById(id);
+    const user = await User.findById(id);
     res.json({
-      getaUser,
+      user,
     });
   } catch (error) {
     throw new Error(error);
