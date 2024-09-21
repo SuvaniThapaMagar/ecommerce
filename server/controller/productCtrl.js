@@ -56,7 +56,10 @@ const deleteProduct = asyncHandler(async (req, res) => {
 
 // Get a single product by ID
 const getaProduct = asyncHandler(async (req, res) => {
+
   const { id } = req.params;
+  console.log("Requested Product ID:", id); // Log the ID
+  validateMongoDbId(id)
   try {
     const foundProduct = await Product.findById(id);
     if (!foundProduct) {

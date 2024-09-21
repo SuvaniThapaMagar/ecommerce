@@ -21,6 +21,7 @@ import SalesPage from "./Component/Sale";
 import AllProduct from "./Component/Collection";
 import SearchResults from "./Component/searchResults";
 import Profile from "./Component/Profile";
+import Checkout from "./Component/Checkout";
 
 
 
@@ -49,6 +50,7 @@ const App = () => {
          <Route path="/products/category/accessories" element={<Accessories />} />
          <Route path="/products/category/decor" element={<Decor />} />
          <Route path="/products/category/gift" element={<Gift />} />
+         <Route path="/checkout" element={<Checkout/>}/>
          
          <Route path="/contact" element={<ContactUs />} />
          <Route path="/description/:id" element={<Description />} />

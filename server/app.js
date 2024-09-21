@@ -9,9 +9,8 @@ const authRouter = require("./routes/Auth");
 const productRouter = require("./routes/productRoute");
 const couponRouter = require("./routes/couponRoute");
 const categoryRouter = require("./routes/categoryRout");
+const cartRouter = require("./routes/cartRoutes"); // New Cart Route
 const cors = require('cors');
-
-
 
 dotenv.config(); // Load environment variables
 dbConnect(); // Connect to the database
@@ -23,7 +22,6 @@ app.use(cors({
   origin: 'http://localhost:5173', // Update this to match your frontend URL
   credentials: true // Allow credentials
 }));
-
 
 // Middleware for logging requests
 app.use(morgan("dev"));
@@ -43,14 +41,13 @@ app.use("/api/user", authRouter);
 app.use("/api/product", productRouter);
 app.use("/api/category", categoryRouter);
 app.use("/api/coupon", couponRouter);
+app.use("/api/cart", cartRouter); // Add Cart Route
 
 // Middleware for handling 404 errors (Not Found)
 app.use(notFound);
 
 // Middleware for handling other errors
 app.use(errorHandler);
-
-
 
 // Start the server
 app.listen(PORT, () => {

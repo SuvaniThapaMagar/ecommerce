@@ -11,6 +11,7 @@ const Description = () => {
   const [product, setProduct] = useState(null);
   const [showForm, setShowForm] = useState(false);
   const [mainImage, setMainImage] = useState("");
+  const [quantity, setQuantity] = useState(1); // Added quantity state
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -32,7 +33,7 @@ const Description = () => {
 
   const handleAddToCart = () => {
     if (product) {
-      addToCart(product); // Removed quantity from here
+      addToCart(product._id, quantity); // Pass quantity when adding to cart
     }
   };
 
@@ -84,6 +85,17 @@ const Description = () => {
               <span className="ml-2 text-gray-600">
                 {product.reviews} Reviews
               </span>
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-medium">Quantity</label>
+              <input
+                type="number"
+                value={quantity}
+                min="1"
+                max={product.availableQuantity} // Limit max quantity to available stock
+                onChange={(e) => setQuantity(Math.min(e.target.value, product.availableQuantity))}
+                className="w-16 p-2 border border-gray-300 rounded"
+              />
             </div>
             <button
               className="w-full p-3 mb-4 text-white bg-black"
