@@ -7,8 +7,6 @@ const dbConnect = require("./config/dbConnect");
 const { notFound, errorHandler } = require("./middlewares/errorHandler");
 const authRouter = require("./routes/Auth");
 const productRouter = require("./routes/productRoute");
-const couponRouter = require("./routes/couponRoute");
-const categoryRouter = require("./routes/categoryRout");
 const cartRouter = require("./routes/cartRoutes"); // New Cart Route
 const cors = require('cors');
 
@@ -39,8 +37,6 @@ app.use(express.static("public"));
 // Define API routes
 app.use("/api/user", authRouter);
 app.use("/api/product", productRouter);
-app.use("/api/category", categoryRouter);
-app.use("/api/coupon", couponRouter);
 app.use("/api/cart", cartRouter); // Add Cart Route
 
 // Middleware for handling 404 errors (Not Found)

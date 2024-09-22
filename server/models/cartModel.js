@@ -17,6 +17,10 @@ const cartItemSchema = new mongoose.Schema({
     required: true,
     min: [0, 'Price can not be negative.'],
   },
+  image: {
+    type: String,
+    required: false, // Changed from true to false
+  },
 }, { _id: true });
 
 const cartSchema = new mongoose.Schema({
@@ -35,7 +39,6 @@ const cartSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-// Add a method to calculate total price
 cartSchema.methods.calculateTotalPrice = function() {
   this.totalPrice = this.cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
 };

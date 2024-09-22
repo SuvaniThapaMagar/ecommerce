@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Nav from './Nav'
 
 const ContactUs = () => {
   const [formData, setFormData] = useState({
@@ -19,6 +20,8 @@ const ContactUs = () => {
   };
 
   return (
+    <div>
+      <Nav/>
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-6">Contact Us</h2>
@@ -87,6 +90,7 @@ const ContactUs = () => {
           </button>
         </form>
       </div>
+    </div>
     </div>
   );
 };

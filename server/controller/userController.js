@@ -8,9 +8,8 @@ const { generateRefreshToken } = require("../config/refreshToken");
 const jwt = require("jsonwebtoken");
 const sendEmail = require("../controller/emailCtrl");
 const crypto = require("crypto");
-const Coupon = require("../models/couponModel");
 const Order = require("../models/orderModel");
-const uniqid = require("uniqid");
+
 //create a user
 const createUser = asyncHandler(async (req, res) => {
   const email = req.body.email;

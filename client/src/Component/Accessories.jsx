@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FaHeart } from "react-icons/fa";
 import Filter from "./Filter";
 import Footer from "./Footer";
+import Nav from "./Nav"
 
 const Accessories = () => {
   const [products, setProducts] = useState([]);
@@ -56,6 +57,7 @@ const Accessories = () => {
 
   return (
     <div>
+      <Nav/>
       <div className="flex flex-col md:flex-row p-4">
         <Filter />
         <div className="flex-1 items-center justify-evenly ml-10">

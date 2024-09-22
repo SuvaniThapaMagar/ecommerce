@@ -5,12 +5,14 @@ import acc from "../assets/acc.jpg";
 import gift from "../assets/gift.jpg";
 import cloh from '../assets/cloh.jpeg';
 import coqqe from '../assets/coqqe.jpg';
-
 import Footer from "./Footer";
 import { NavLink } from "react-router-dom";
+import Nav from "./Nav";
 
 const Home = () => {
   return (
+    <div>
+      <Nav/>
     <div className="flex flex-col">
       {/* Hero Section */}
       <div
@@ -83,6 +85,7 @@ const Home = () => {
       <div>
         <Footer />
       </div>
+    </div>
     </div>
   );
 };

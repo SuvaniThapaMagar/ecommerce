@@ -7,7 +7,7 @@ import { CartContext } from "./CartContext"; // Import CartContext
 
 const Nav = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const { cartCount } = useContext(CartContext);
+  const { cartCount } = useContext(CartContext); // Use cartCount from context
   const navigate = useNavigate(); // Import useNavigate for programmatic navigation
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
@@ -21,8 +21,16 @@ const Nav = () => {
     setShowProfileDropdown(!showProfileDropdown);
   };
 
+  const handleProfileClick = () => {
+    const storedUser = JSON.parse(localStorage.getItem("user")); // Fetch user from localStorage
+    if (!storedUser) {
+      alert("You need to login first to access your profile.");
+      navigate("/login"); // Redirect to login page
+    } else {
+      navigate("/profile"); // Redirect to profile page if logged in
+    }
+  };
 
- 
   return (
     <div className="w-full bg-white">
       <div className="flex items-center justify-between px-6">
@@ -56,34 +64,34 @@ const Nav = () => {
 
         {/* Right Section: Icons */}
         <div className="flex items-center text-sm gap-6">
-        <div className="relative">
-          <IoPersonOutline 
-            className="text-2xl ml-2 cursor-pointer" 
-            onClick={toggleProfileDropdown}
-          />
-          {showProfileDropdown && (
-            <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
-              <NavLink 
-                to="/profile" 
-                className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100"
-              >
-                Profile
-              </NavLink>
-              <NavLink 
-                to="/login" 
-                className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100"
-              >
-                Login
-              </NavLink>
-            </div>
-          )}
-        </div>
+          <div className="relative">
+            <IoPersonOutline
+              className="text-2xl ml-2 cursor-pointer"
+              onClick={handleProfileClick} // Change the click handler
+            />
+            {showProfileDropdown && (
+              <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-md shadow-xl z-20">
+                <NavLink
+                  to="/profile"
+                  className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100"
+                >
+                  Profile
+                </NavLink>
+                <NavLink
+                  to="/login"
+                  className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100"
+                >
+                  Login
+                </NavLink>
+              </div>
+            )}
+          </div>
 
           <NavLink to="/cart" className="relative">
             <IoCartOutline className="text-3xl" />
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-2 bg-red-500 text-white text-xs rounded-full px-1">
-                {cartCount}
+                {cartCount} {/* Show cart count */}
               </span>
             )}
           </NavLink>

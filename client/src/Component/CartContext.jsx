@@ -8,6 +8,9 @@ export const CartProvider = ({ children }) => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userId = storedUser?._id;
 
+  // Derived state for cart item count
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
@@ -28,7 +31,7 @@ export const CartProvider = ({ children }) => {
     }
   }, [userId]);
 
-  const addToCart = async (productId, quantity) => {
+  const addToCart = async (productId, quantity, image) => {
     try {
       const response = await fetch(`http://localhost:4000/api/cart/add`, {
         method: 'POST',
@@ -36,14 +39,14 @@ export const CartProvider = ({ children }) => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify({ cart: [{ productId, quantity }] }), // Updated to send cart as an array
+        body: JSON.stringify({ cart: [{ productId, quantity, image }] }),
       });
-  
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Add to cart failed");
       }
-  
+
       const data = await response.json();
       setCartItems(data.cartItems);
       toast.success("Product added successfully");
@@ -52,9 +55,10 @@ export const CartProvider = ({ children }) => {
       toast.error(error.message || "Failed to add product to cart");
     }
   };
+
   const removeFromCart = async (cartItemId) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/cart/userCart/${cartItemId}`, {
+      const response = await fetch(`http://localhost:4000/api/cart/remove/${cartItemId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -76,7 +80,7 @@ export const CartProvider = ({ children }) => {
 
   const updateQuantity = async (cartItemId, newQuantity) => {
     try {
-      const response = await fetch(`http://localhost:4000/api/cart/userCart/${cartItemId}`, {
+      const response = await fetch(`http://localhost:4000/api/cart/update/${cartItemId}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -98,30 +102,8 @@ export const CartProvider = ({ children }) => {
     }
   };
 
-  const clearCart = async () => {
-    try {
-      const response = await fetch(`http://localhost:4000/api/cart/emptyCart`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setCartItems(data.cartItems);
-        toast.success("Cart cleared successfully");
-      } else {
-        throw new Error("Error clearing cart");
-      }
-    } catch (error) {
-      console.error("Error clearing cart:", error);
-      toast.error(error.message || "Failed to clear cart");
-    }
-  };
-
   return (
-    <CartContext.Provider value={{ cartItems,setCartItems, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider value={{ cartItems, setCartItems, cartCount, addToCart, removeFromCart, updateQuantity }}>
       {children}
     </CartContext.Provider>
   );
