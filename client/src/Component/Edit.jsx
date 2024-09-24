@@ -3,15 +3,7 @@ import { FaArrowRight } from 'react-icons/fa';
 import Nav from './Nav';
 
 const Edit = () => {
-  const [image, setImage] = useState(null);
-
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
-    }
-  };
-
+  
   return (
     <div>
       <Nav/>
@@ -48,28 +40,7 @@ const Edit = () => {
         </div>
       </div>
 
-      {/* Right Section - Profile Image Upload */}
-      <div className="w-full md:w-1/3 flex flex-col items-center justify-center">
-        <div className="border-r-2 border-gray-200 h-full mr-8"></div>
-        <div className="text-center">
-          <img
-            src={image || 'https://via.placeholder.com/150'}
-            alt="Profile"
-            className="rounded-full h-32 w-32 object-cover mb-4"
-          />
-          <label className="block border-2 border-black py-2 px-4 rounded-lg cursor-pointer">
-            SELECT IMAGE
-            <input
-              type="file"
-              accept="image/jpeg, image/png"
-              onChange={handleImageUpload}
-              className="hidden"
-            />
-          </label>
-          <p className="text-sm text-gray-600 mt-2">FILE SIZE: MAXIMUM 1 MB</p>
-          <p className="text-sm text-gray-600">FILE EXTENSION: JPEG, .PNG</p>
-        </div>
-      </div>
+  
     </div>
     </div>
   );

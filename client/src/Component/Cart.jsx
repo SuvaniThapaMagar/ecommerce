@@ -1,8 +1,10 @@
+// Import necessary hooks
 import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "./CartContext";
 import { useNavigate } from "react-router-dom";
 import { FaTrashAlt, FaHeart } from "react-icons/fa";
 import Nav from "./Nav";
+import Footer from "./Footer";
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -10,13 +12,12 @@ const Cart = () => {
     useContext(CartContext);
   const [isLoading, setIsLoading] = useState(true);
 
-  const storedUser = JSON.parse(localStorage.getItem("user")); // Fetch user from localStorage
+  const storedUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     if (!storedUser) {
-      // Check if the user is not logged in
       alert("You need to login first to access your cart.");
-      navigate("/login"); // Redirect to login page
+      navigate("/login");
       return;
     }
 
@@ -64,6 +65,12 @@ const Cart = () => {
         <p className="text-gray-600">
           Browse our products and add them to your cart!
         </p>
+        <button
+          className="mt-4 p-2 border border-black"
+          onClick={() => navigate("/products")}
+        >
+          CONTINUE SHOPPING
+        </button>
       </div>
     );
   }
@@ -73,7 +80,6 @@ const Cart = () => {
       <Nav />
       <div className="container mx-auto mt-10 px-10">
         <h1 className="text-4xl font-bold mb-6">SHOPPING BAG</h1>
-        <p className="text-gray-500 text-lg mb-6">FREE SHIPPING OVER 40$</p>
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Left Section: Cart Items */}
           <div className="flex-1 space-y-6">
@@ -89,10 +95,8 @@ const Cart = () => {
                 />
                 <div className="flex-1 px-6">
                   <h2 className="text-xl font-semibold">{item.title}</h2>
-                  <p className="text-lg">ART NO. {item.artNumber}</p>
-                  <p className="text-lg">COLOR: {item.color}</p>
                   <p className="text-lg">SIZE: {item.size}</p>
-                  <p className="font-semibold">TOTAL: RS {item.price}</p>
+                  <p className="font-semibold">TOTAL: $ {item.price}</p>
                 </div>
                 <div className="flex items-center space-x-4">
                   <button
@@ -120,30 +124,20 @@ const Cart = () => {
 
           {/* Right Section: Summary */}
           <div className="w-full lg:w-1/3 border border-black p-6 space-y-6">
-            <div className="border-b pb-4">
-              <h2 className="text-lg font-semibold">DISCOUNTS</h2>
-              <div className="flex justify-between items-center mt-2">
-                <input
-                  type="text"
-                  placeholder="Enter discount code"
-                  className="border border-gray-300 p-2 w-full mr-2"
-                />
-                <button className="border border-black px-4 py-2">APPLY</button>
-              </div>
-            </div>
+          
 
             <div className="space-y-2 text-lg">
               <div className="flex justify-between">
                 <span>ORDER VALUE</span>
-                <span>RS {calculateTotal()}</span>
+                <span>$ {calculateTotal()}</span>
               </div>
               <div className="flex justify-between">
                 <span>SHIPPING</span>
-                <span>RS 150</span>
+                <span>$ 10</span>
               </div>
               <div className="border-t pt-4 flex justify-between font-bold text-xl">
                 <span>TOTAL</span>
-                <span>RS {calculateTotal() + 150}</span>
+                <span>$ {calculateTotal() + 10}</span>
               </div>
             </div>
 
@@ -154,35 +148,20 @@ const Cart = () => {
               CONTINUE TO CHECKOUT
             </button>
 
-            <div className="pt-4 text-center">
-              <p className="text-gray-600">WE ACCEPT</p>
-              <div className="flex justify-center space-x-4 mt-2">
-                <img
-                  src="https://via.placeholder.com/40x20?text=Visa"
-                  alt="Visa"
-                />
-                <img
-                  src="https://via.placeholder.com/40x20?text=Mastercard"
-                  alt="Mastercard"
-                />
-                <img
-                  src="https://via.placeholder.com/40x20?text=PayPal"
-                  alt="PayPal"
-                />
-                <img
-                  src="https://via.placeholder.com/40x20?text=Sewa"
-                  alt="Sewa"
-                />
-              </div>
-            </div>
-
-            <p className="text-gray-500 text-center mt-4 text-sm">
-              THE ESTIMATED TAX WILL BE CONFIRMED ONCE YOU ADD YOUR SHIPPING
-              ADDRESS IN CHECKOUT.
-            </p>
           </div>
         </div>
+
+        {/* Continue Shopping Button */}
+        <div className="mt-6 text-center">
+          <button
+            className="p-2 border border-black"
+            onClick={() => navigate("/all-product")}
+          >
+            CONTINUE SHOPPING
+          </button>
+        </div>
       </div>
+      <Footer/>
     </div>
   );
 };

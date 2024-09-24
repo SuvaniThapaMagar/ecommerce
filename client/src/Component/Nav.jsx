@@ -6,14 +6,20 @@ import logo from "../assets/logo.png"; // Ensure this path is correct
 import { CartContext } from "./CartContext"; // Import CartContext
 
 const Nav = () => {
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const { cartCount } = useContext(CartContext); // Use cartCount from context
   const navigate = useNavigate(); // Import useNavigate for programmatic navigation
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
-  const handleSearch = () => {
-    if (searchQuery.trim()) {
-      navigate(`/search?query=${encodeURIComponent(searchQuery)}`);
+  const handleSearch = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:4000/api/product?search=${searchQuery}`
+      );
+      const data = await response.json();
+      // Set the searched products in your state (e.g., setProducts(data))
+    } catch (error) {
+      console.error("Error searching products:", error);
     }
   };
 
@@ -25,10 +31,31 @@ const Nav = () => {
     const storedUser = JSON.parse(localStorage.getItem("user")); // Fetch user from localStorage
     if (!storedUser) {
       alert("You need to login first to access your profile.");
-      navigate("/login"); // Redirect to login page
+      navigate("/login"); // Redirect to login page if not logged in
     } else {
-      navigate("/profile"); // Redirect to profile page if logged in
+      toggleProfileDropdown(); // Toggle the dropdown if logged in
     }
+  };
+
+  const handleLogout = () => {
+    console.log(
+      "Logging out. Current user data:",
+      localStorage.getItem("user")
+
+    );
+
+    // Remove token and user info from localStorage
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    console.log("After logout. User data:", localStorage.getItem("user"));
+
+    // Optionally, you can also reset the state if required
+    setEmail("");
+    setPassword("");
+
+    // Navigate back to the login page
+    navigate("/");
   };
 
   return (
@@ -44,7 +71,7 @@ const Nav = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={(e) => {
-              if (e.key === 'Enter') {
+              if (e.key === "Enter") {
                 handleSearch();
               }
             }}
@@ -57,9 +84,11 @@ const Nav = () => {
           </button>
         </div>
 
-        {/* Center Section: Logo */}
-        <div className="flex justify-center flex-grow">
-          <img src={logo} className="w-60" alt="Logo" />
+        <div
+          className="flex justify-center flex-grow"
+          onClick={() => navigate("/")}
+        >
+          <img src={logo} className="w-60 cursor-pointer" alt="Logo" />
         </div>
 
         {/* Right Section: Icons */}
@@ -83,6 +112,13 @@ const Nav = () => {
                 >
                   Login
                 </NavLink>
+
+                <button
+                  onClick={handleLogout}
+                  className="block px-4 py-2 text-sm capitalize text-gray-700 hover:bg-gray-100"
+                >
+                  LOG OUT
+                </button>
               </div>
             )}
           </div>

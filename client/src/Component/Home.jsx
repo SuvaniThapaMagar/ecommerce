@@ -64,7 +64,7 @@ const Home = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {[
             { img: deco, label: "CUTE HOME DECOR", desc: "Make your home cute and lively", to: "/products/category/decor" },
-            { img: coqqe, label: "CUTE ACCESSORIES", desc: "Be cute and lively", to: "/products/category/accessory" },
+            { img: coqqe, label: "CUTE ACCESSORIES", desc: "Be cute and lively", to: "/products/category/accessories" },
             { img: cloh, label: "CUTE CLOTHES", desc: "Shop cute Be cute", to: "/products/category/fashion" },
           ].map((product) => (
             <div className="flex flex-col items-center" key={product.label}>

@@ -103,7 +103,7 @@ const Accessories = () => {
                         {product.title}
                       </h3>
                     </Link>
-                    <p className="text-black font-bold">NPR {product.price}</p>
+                    <p className="text-black font-bold">$ {product.price}</p>
                   </div>
                 </div>
               ))

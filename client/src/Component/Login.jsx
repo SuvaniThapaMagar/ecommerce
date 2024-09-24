@@ -83,24 +83,6 @@ const Login = () => {
     }
   };
 
-  // Function to handle logout
-  const handleLogout = () => {
-    console.log("Logging out. Current user data:", localStorage.getItem("user"));
-    
-    // Remove token and user info from localStorage
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-
-    console.log("After logout. User data:", localStorage.getItem("user"));
-
-    // Optionally, you can also reset the state if required
-    setEmail("");
-    setPassword("");
-
-    // Navigate back to the login page
-    navigate("/login");
-  };
-
   return (
     <div className="flex justify-center items-center h-screen bg-white">
       <div className="flex space-x-16">
@@ -171,13 +153,6 @@ const Login = () => {
             </button>
           </NavLink>
 
-          {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            className="mt-4 w-full py-2 border border-red-600 text-red-600 font-medium text-sm"
-          >
-            LOG OUT
-          </button>
         </div>
       </div>
     </div>

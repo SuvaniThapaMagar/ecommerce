@@ -298,6 +298,4 @@ module.exports = {
   forgotPasswordToken,
   resetPassword,
   loginAdmin,
- 
-  
 };

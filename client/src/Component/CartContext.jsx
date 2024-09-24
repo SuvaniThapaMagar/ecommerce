@@ -4,12 +4,14 @@ import { toast } from 'react-toastify';
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState([]); // Initialize as an empty array
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userId = storedUser?._id;
 
   // Derived state for cart item count
-  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const cartCount = Array.isArray(cartItems) 
+    ? cartItems.reduce((total, item) => total + item.quantity, 0) 
+    : 0;
 
   useEffect(() => {
     const fetchCartItems = async () => {

@@ -20,24 +20,28 @@ import SalesPage from "./Component/Sale";
 import AllProduct from "./Component/Collection";
 import SearchResults from "./Component/searchResults";
 import Profile from "./Component/Profile";
-import Checkout from "./Component/Checkout";
+import CheckoutPage from "./Component/Checkout";
 import ForgotPassword from "./Component/ForgotPassword";
 import ResetPassword from "./Component/ResetPassword";
+import Edit from "./Component/Edit";
+import ReviewPage from "./Component/Review";
+import ProtectedRoute from "./ProtectedRoute"; // Import ProtectedRoute
 
 const App = () => {
   document.title = "Pixies World";
 
   return (
     <CartProvider>
-      {" "}
-      {/* Wrap your application with CartProvider */}
       <div className="flex flex-col">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<SearchResults />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/edit" element={<Edit />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/reviews" element={<ReviewPage />} />
+
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/signup" element={<Register />} />
@@ -45,22 +49,48 @@ const App = () => {
           <Route path="/sale" element={<SalesPage />} />
           <Route path="/all-product" element={<AllProduct />} />
           <Route path="/products/category/fashion" element={<Fashion />} />
-          <Route
-            path="/products/category/accessories"
-            element={<Accessories />}
-          />
+          <Route path="/products/category/accessories" element={<Accessories />} />
           <Route path="/products/category/decor" element={<Decor />} />
           <Route path="/products/category/gift" element={<Gift />} />
-          <Route path="/checkout" element={<Checkout />} />
-
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/description/:id" element={<Description />} />
 
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          <Route path="/admin-products" element={<AdminProduct />} />
-          <Route path="/admin-orders" element={<AdminOrder />} />
-          <Route path="/order-history" element={<AdminHistory />} />
           <Route path="/admin-login" element={<AdminLogin />} />
+
+          {/* Protected Routes */}
+          <Route
+            path="/admin-dashboard"
+            element={
+              <ProtectedRoute>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-products"
+            element={
+              <ProtectedRoute>
+                <AdminProduct />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin-orders"
+            element={
+              <ProtectedRoute>
+                <AdminOrder />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/order-history"
+            element={
+              <ProtectedRoute>
+                <AdminHistory />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </CartProvider>
