@@ -58,19 +58,18 @@ const Description = () => {
 
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
-  
-    // Validate rating and comment
+
     if (rating < 1 || rating > 5 || !comment.trim()) {
       alert("Please provide a valid rating and comment.");
       return;
     }
-  
+
     try {
       const response = await fetch("http://localhost:4000/api/review", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`, // Include token if needed
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           star: rating,
@@ -78,23 +77,22 @@ const Description = () => {
           comment,
         }),
       });
-  
-      // Check if the response is okay
+
       if (!response.ok) {
-        const errorMessage = await response.text(); // Get error message from the response
+        const errorMessage = await response.text();
         throw new Error(`Failed to submit review: ${errorMessage}`);
       }
-  
+
       const data = await response.json();
-      console.log("Response data:", data); // Log response data
-  
-      // Reset form state
+      console.log("Response data:", data);
+
       setShowForm(false);
       setRating(0);
       setComment("");
-  
-      // Refetch the product to get updated ratings
-      const updatedProductResponse = await fetch(`http://localhost:4000/api/product/${id}`);
+
+      const updatedProductResponse = await fetch(
+        `http://localhost:4000/api/product/${id}`
+      );
       if (updatedProductResponse.ok) {
         const updatedProduct = await updatedProductResponse.json();
         setProduct(updatedProduct);
@@ -103,24 +101,24 @@ const Description = () => {
       }
     } catch (error) {
       console.error("Error submitting review:", error);
-      alert(error.message); // Alert the user of the error
+      alert(error.message);
     }
   };
-  
+
   if (!product) return <p>Loading...</p>;
 
   return (
     <div>
       <Nav />
-      <div className="flex flex-col mt-11 px-11">
-        <div className="flex gap-7">
+      <div className="flex flex-col mt-11 px-4 sm:px-11">
+        <div className="flex flex-col lg:flex-row gap-7">
           {/* Left side with images */}
-          <div className="w-1/2">
+          <div className="w-full lg:w-1/2">
             {mainImage && (
               <img
                 src={mainImage}
                 alt={product.title}
-                className="w-[450px] h-[500px] rounded-md mb-4"
+                className="w-full lg:w-[450px] h-auto lg:h-[500px] rounded-md mb-4"
               />
             )}
             <div className="flex gap-3 flex-wrap">
@@ -130,7 +128,7 @@ const Description = () => {
                     key={index}
                     src={img}
                     alt={`Thumbnail ${index + 1}`}
-                    className={`w-28 h-28 border-2 cursor-pointer ${
+                    className={`w-24 h-24 sm:w-28 sm:h-28 border-2 cursor-pointer ${
                       mainImage === img
                         ? "border-blue-500"
                         : "border-orange-500"
@@ -141,9 +139,9 @@ const Description = () => {
             </div>
           </div>
           {/* Right side with product details */}
-          <div className="w-1/2 flex flex-col justify-center">
-            <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
-            <p className="text-2xl font-semibold mb-2">$ {product.price}</p>
+          <div className="w-full lg:w-1/2 flex flex-col justify-center">
+            <h1 className="text-2xl sm:text-3xl font-bold mb-4">{product.title}</h1>
+            <p className="text-xl sm:text-2xl font-semibold mb-2">$ {product.price}</p>
             <p className="text-gray-600 mb-4">
               Available Quantity: {product.quantity}
             </p>
@@ -161,7 +159,7 @@ const Description = () => {
                 type="number"
                 value={quantity}
                 readOnly
-                className="w-16 p-2 border border-gray-300 rounded text-center mx-2"
+                className="w-12 p-2 border border-gray-300 rounded text-center mx-2"
               />
               <button
                 onClick={incrementQuantity}

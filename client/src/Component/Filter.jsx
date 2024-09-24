@@ -71,46 +71,9 @@ const Filter = ({ onFilter }) => {
         </NavLink>
       </div>
 
-      {/* Stock Status Filter */}
-      <div className="mb-4">
-        <span className="block text-sm font-medium text-gray-700">
-          Stock Status
-        </span>
-        <div className="flex items-center mt-2">
-          <input
-            type="radio"
-            id="inStock"
-            name="stockStatus"
-            value="inStock"
-            checked={stockStatus === "inStock"}
-            onChange={handleStockChange}
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-          />
-          <label
-            htmlFor="inStock"
-            className="ml-2 text-sm font-medium text-gray-700"
-          >
-            In Stock
-          </label>
-        </div>
-        <div className="flex items-center mt-2">
-          <input
-            type="radio"
-            id="outOfStock"
-            name="stockStatus"
-            value="outOfStock"
-            checked={stockStatus === "outOfStock"}
-            onChange={handleStockChange}
-            className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-          />
-          <label
-            htmlFor="outOfStock"
-            className="ml-2 text-sm font-medium text-gray-700"
-          >
-            Out of Stock
-          </label>
-        </div>
-      </div>
+     
+      
+      
     </div>
   );
 };

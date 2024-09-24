@@ -67,9 +67,10 @@ const CheckoutPage = () => {
       });
 
       if (response.ok) {
+        alert("Order placed successfully!");
         setOrderCreated(true);
         setCartItems([]); // Clear the cart
-        alert("Order placed successfully!");
+        
 
         // You can navigate to a success page if you want
         navigate("/");

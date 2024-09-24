@@ -40,20 +40,6 @@ const AdminLogin = () => {
     }
   };
 
-  // Function to handle logout
-  const handleLogout = () => {
-    // Remove token and user info from localStorage
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-
-    // Optionally, you can also reset the state if required
-    setEmail("");
-    setPassword("");
-
-    // Navigate back to the login page
-    navigate("/admin-login");
-  };
-
   return (
     <div className="flex justify-center items-center h-screen bg-white">
       <div className="flex space-x-16">
@@ -90,14 +76,7 @@ const AdminLogin = () => {
           </a>
         </div>
 
-          {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            className="mt-4 w-full py-2 border border-red-600 text-red-600 font-medium text-sm"
-          >
-            LOG OUT
-          </button>
-        
+          
       </div>
     </div>
   );

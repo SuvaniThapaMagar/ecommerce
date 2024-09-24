@@ -67,7 +67,7 @@ const Cart = () => {
         </p>
         <button
           className="mt-4 p-2 border border-black"
-          onClick={() => navigate("/products")}
+          onClick={() => navigate("/all-product")}
         >
           CONTINUE SHOPPING
         </button>

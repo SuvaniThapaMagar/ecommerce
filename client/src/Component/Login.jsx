@@ -84,11 +84,11 @@ const Login = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-white">
-      <div className="flex space-x-16">
+    <div className="flex justify-center items-center min-h-screen bg-white">
+      <div className="flex flex-col md:flex-row space-y-8 md:space-y-0 md:space-x-16 p-6 w-full max-w-4xl">
         {/* Left Section: Login */}
-        <div className="w-96 p-8">
-          <h1 className="text-xl font-bold mb-8">LOG IN TO YOUR ACCOUNT</h1>
+        <div className="w-full md:w-96 p-8 bg-white ">
+          <h1 className="text-xl font-bold mb-8 text-center">LOG IN TO YOUR ACCOUNT</h1>
           {!isForgotPassword ? (
             <form onSubmit={handleLogin}>
               <input
@@ -104,7 +104,7 @@ const Login = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full py-2 border-b border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:border-black"
+                className="w-full py-2 mt-4 border-b border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:border-black"
                 required
               />
               <button
@@ -137,22 +137,21 @@ const Login = () => {
           )}
           <a
             href="#"
-            className="block text-sm text-gray-600 mt-4 underline"
+            className="block text-sm text-gray-600 mt-4 underline text-center"
             onClick={() => setIsForgotPassword(!isForgotPassword)}
           >
             {isForgotPassword ? "Back to login" : "Have you forgotten your password?"}
           </a>
         </div>
 
-        {/* Right Section: Register and Logout */}
-        <div className="w-96 p-8 flex flex-col justify-center">
+        {/* Right Section: Register */}
+        <div className="w-full md:w-96 p-8 bg-white  flex flex-col justify-center items-center">
           <h1 className="text-xl font-bold mb-8 text-center">NEED AN ACCOUNT?</h1>
-          <NavLink to="/signup" className="relative">
+          <NavLink to="/signup" className="relative w-full">
             <button className="w-full py-2 border border-black text-black font-medium text-sm">
               REGISTER
             </button>
           </NavLink>
-
         </div>
       </div>
     </div>
