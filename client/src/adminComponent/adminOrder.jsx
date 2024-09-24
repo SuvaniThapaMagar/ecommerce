@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Side from "./adminNav";
+
 
 const AdminOrder = () => {
   const [orders, setOrders] = useState([]);
@@ -83,7 +83,7 @@ const AdminOrder = () => {
 
   return (
     <div className="flex flex-row">
-      <Side />
+     
       <div className="flex flex-col w-full p-6">
         <h1 className="text-2xl font-bold mb-6">Admin Orders</h1>
 

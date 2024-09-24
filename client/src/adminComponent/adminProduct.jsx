@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Side from "./adminNav";
+
 
 const AdminProduct = () => {
   const [products, setProducts] = useState([]);
@@ -165,7 +165,7 @@ const AdminProduct = () => {
 
   return (
     <div className="flex">
-      <Side />
+    
       <div className="flex-1 p-4">
         <ToastContainer />
         <h1 className="text-2xl font-bold mb-4">Admin Product Management</h1>
