@@ -4,10 +4,14 @@ import {
   FaBoxOpen,
   FaShippingFast,
   FaRegStar,
-
+  FaExclamationCircle,
+  FaTimesCircle,
+  FaCheckCircle,
 } from "react-icons/fa";
 import Nav from "./Nav";
-import Footer from "./Footer"
+import Footer from "./Footer";
+import { useNavigate } from "react-router-dom";
+
 
 const Profile = () => {
   const [user, setUser] = useState(null);
@@ -15,6 +19,8 @@ const Profile = () => {
   const [error, setError] = useState(null);
   const [editing, setEditing] = useState(false);
   const [formData, setFormData] = useState({});
+
+  const navigate = useNavigate(); 
 
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const userId = storedUser?._id;
@@ -34,7 +40,7 @@ const Profile = () => {
           },
         });
         const data = await response.json();
-        
+
         if (!response.ok) {
           throw new Error(data.message || "An error occurred while fetching your data.");
         }
@@ -76,11 +82,11 @@ const Profile = () => {
         },
         body: JSON.stringify(formData),
       });
-  
+
       if (!response.ok) {
         throw new Error('Failed to update user data');
       }
-  
+
       const updatedUser = await response.json();
       setEditing(false);
       setUser({ ...user, ...formData }); // Update local state with new user data
@@ -107,10 +113,7 @@ const Profile = () => {
         <div className="border-black border-2 rounded-lg p-4 mt-4">
           <h2 className="text-lg font-bold">My Orders</h2>
           <div className="grid grid-cols-4 gap-4 mt-4 text-center">
-            <div className="flex flex-col items-center">
-              <FaBoxOpen className="text-2xl" />
-              <p>Unpaid</p>
-            </div>
+            
             <div className="flex flex-col items-center">
               <FaTruck className="text-2xl" />
               <p>Processing</p>
@@ -119,10 +122,27 @@ const Profile = () => {
               <FaShippingFast className="text-2xl" />
               <p>Shipped</p>
             </div>
+            
             <div className="flex flex-col items-center">
-              <FaRegStar className="text-2xl" />
-              <p>Review</p>
+              <FaExclamationCircle className="text-2xl" />
+              <p>Pending</p>
             </div>
+            <div className="flex flex-col items-center">
+              <FaTimesCircle className="text-2xl" />
+              <p>Canceled</p>
+            </div>
+            <div className="flex flex-col items-center">
+              <FaCheckCircle className="text-2xl" />
+              <p>Delivered</p>
+            </div>
+          </div>
+          <div className="text-center mt-4">
+            <button
+              onClick={() => navigate('/user-history')} // Use navigate here
+              className="py-2 px-4 bg-black text-white rounded"
+            >
+              View All 
+            </button>
           </div>
         </div>
 
@@ -138,7 +158,7 @@ const Profile = () => {
                   name="firstname"
                   value={formData.firstname}
                   onChange={handleChange}
-                 className="w-full py-5 border-b border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:border-black"
+                  className="w-full py-5 border-b border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:border-black"
                   disabled={!editing}
                 />
               </div>
@@ -149,7 +169,7 @@ const Profile = () => {
                   name="lastname"
                   value={formData.lastname}
                   onChange={handleChange}
-                 className="w-full py-5 border-b border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:border-black"
+                  className="w-full py-5 border-b border-gray-300 text-gray-700 placeholder-gray-500 focus:outline-none focus:border-black"
                   disabled={!editing}
                 />
               </div>
@@ -203,10 +223,9 @@ const Profile = () => {
             </form>
           </div>
         </div>
-
       </div>
 
-      <Footer/>
+      <Footer />
     </div>
   );
 };

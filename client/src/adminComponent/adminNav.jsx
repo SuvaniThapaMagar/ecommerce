@@ -54,18 +54,7 @@ const Side = () => {
           <span>Orders</span>
         </NavLink>
 
-        {/* History Link */}
-        <NavLink
-          to="/order-history"
-          className={({ isActive }) =>
-            isActive
-              ? "flex items-center space-x-3 text-blue-500 font-bold"
-              : "flex items-center space-x-3"
-          }
-        >
-          <FaHistory aria-label="History" className="text-2xl" />
-          <span>History</span>
-        </NavLink>
+        
         
       </div>
     </div>

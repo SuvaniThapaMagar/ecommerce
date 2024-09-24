@@ -9,7 +9,6 @@ const createOrder = async (req, res) => {
       products: products.map((prod) => ({
         product: prod.productId,
         quantity: prod.quantity,
-        color: prod.color,
       })),
       paymentIntent,
       orderStatus,

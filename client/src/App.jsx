@@ -11,7 +11,6 @@ import Register from "./Component/Register.";
 import AdminDashboard from "./adminComponent/adminHome";
 import AdminProduct from "./adminComponent/adminProduct";
 import AdminOrder from "./adminComponent/adminOrder";
-import AdminHistory from "./adminComponent/adminHistory";
 import AdminLogin from "./adminComponent/adminLogin";
 import Gift from "./Component/Gift";
 import Decor from "./Component/Decor";
@@ -26,6 +25,8 @@ import ResetPassword from "./Component/ResetPassword";
 import Edit from "./Component/Edit";
 import ReviewPage from "./Component/Review";
 import ProtectedRoute from "./ProtectedRoute"; // Import ProtectedRoute
+import OrderHistory from "./Component/History";
+
 
 const App = () => {
   document.title = "Pixies World";
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/search" element={<SearchResults />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/user-history" element={<OrderHistory />} />
           <Route path="/edit" element={<Edit />} />
           <Route path="/login" element={<Login />} />
           <Route path="/reviews" element={<ReviewPage />} />
@@ -83,14 +85,7 @@ const App = () => {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/order-history"
-            element={
-              <ProtectedRoute>
-                <AdminHistory />
-              </ProtectedRoute>
-            }
-          />
+          
         </Routes>
       </div>
     </CartProvider>
